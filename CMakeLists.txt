@@ -5,7 +5,7 @@ project(Vulkan_Mouse_Interaction_Sim)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES 
-    Vulkan_XPBD_Interaction.cpp
+    src/Vulkan_XPBD_Interaction.cpp
 )
 include(FetchContent)
 
