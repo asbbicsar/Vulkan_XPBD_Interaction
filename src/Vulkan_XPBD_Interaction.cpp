@@ -77,7 +77,8 @@ struct ClothNode {
 
     glm::vec4 normal;
     float isFixed;
-    float _padding[3];
+    float invMass;
+    float _padding[2];
 
     static VkVertexInputBindingDescription getBindingDescription() {
         VkVertexInputBindingDescription bindingDescription{};
@@ -136,8 +137,9 @@ static std::vector<ClothNode> generateClothNodes(uint32_t width, uint32_t height
             ClothNode node{};
 
             float posX = x * spacing - (width * spacing) / 2.0f;
-            float posY = (y * spacing - (height * spacing) / 2.0f) + 2.0f;
-            node.pos = glm::vec4(posX, posY, posY, 0.0f);
+            float posY = (height / 2.0f) * spacing;
+            float posZ = y * spacing;
+            node.pos = glm::vec4(posX, posY, posZ, 0.0f);
 
             node.vel = glm::vec4(0.0f);
 
@@ -146,6 +148,7 @@ static std::vector<ClothNode> generateClothNodes(uint32_t width, uint32_t height
             node.normal = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 
             node.isFixed = (y == 0) && (x == 0 || x == width - 1) ? 1.0f : 0.0f;
+            node.invMass = node.isFixed > 0.5f ? 0.0f : height * width;
 
             nodes.push_back(node);
         }
